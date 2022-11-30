@@ -1,17 +1,12 @@
 
 
-function searchApi(query, format) {
-  var locQueryUrl = "https://api.exchange.cryptomkt.com/api/3";
-
-  if (format) {
-    locQueryUrl = "https://api.exchange.cryptomkt.com/api/3" + format + "/?fo=json";
-  }
-
-  locQueryUrl = locQueryUrl + "&q=" + query;
+function searchApi() {
+  var locQueryUrl = "https://api.coingecko.com/api/v3/coins/categories/list";
 
   fetch(locQueryUrl)
     .then(function (response) {
-      if (!response.ok) {
+      console.log(response)
+      if (response.ok) {
         response.json().then(function (data) {
           console.log(data)
         });
@@ -24,4 +19,4 @@ function searchApi(query, format) {
       })
     }
 
-searchApi()
+searchApi();
