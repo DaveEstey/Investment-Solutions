@@ -1,40 +1,29 @@
-function takeInput(){
+function takeInput() {
   var userInput = document.querySelector("#input");
-  var formatType = document.querySelector("#format-input-type")
-  var formatCategory = document.querySelector("#format-input-category")
-
-
-
+  var formatType = document.querySelector("#format-input-type");
+  var formatCategory = document.querySelector("#format-input-category");
 }
 
-function searchData(){
-
-}
-
+function searchData() {}
 
 function showStockResults(resultObj) {
+  var contentEl = document.getElementById("content");
+  contentEl.innerHTML = `<textarea class="textarea h-full w-full" placeholder="Bio">${JSON.stringify(
+    resultObj
+  )}</textarea>`;
 
-  var inputData = document.querySelector("#textResult");
-  inputData.innerHTML = ""
-  
-  for (var i = 0; (i < resultObj.results.length); i++) {
+/*   for (var i = 0; i < resultObj.results.length; i++) {
     var result = document.createElement("div");
     result.innerHTML = resultObj.results[i].ticker;
 
     inputData.appendChild(result);
-  }
-
-
-
-
-
+  } */
 }
 function showCryptoResults(resultObj) {
-
   var inputData = document.querySelector("#textResult");
-  inputData.innerHTML = ""
-  
-  for (var i = 0; (i < resultObj.length); i++) {
+  inputData.innerHTML = "";
+
+  for (var i = 0; i < resultObj.length; i++) {
     var result = document.createElement("div");
     result.innerHTML = resultObj[i].name;
 
@@ -42,14 +31,10 @@ function showCryptoResults(resultObj) {
   }
 
 
+
+
+
 }
-
-
-
-
-
-
-
 
 function cryptoApi() {
   var input = "music"
@@ -59,29 +44,11 @@ function cryptoApi() {
     .then(function (response) {
       if (response.ok) {
         response.json().then(function (data) {
-          console.log("This is crypto")
           console.log(data)
           showCryptoResults(data);
         });
       } else {
-        alert('Error: ' + response.statusText);
-      }
-    })
-    .catch(function () {
-      alert('Unable to connect to GitHub');
-    })
-var coinGekcoCat = "https://api.coingecko.com/api/v3/coins/categories/list"  
-    fetch(coinGekcoCat)
-    .then(function (response) {
-      if (response.ok) {
-        response.json().then(function (data) {
-          console.log("This is crypto cats")
-          console.log(data)
-          showCryptoResults(data);
-          makeOptions(data);
-        });
-      } else {
-        alert('Error: ' + response.statusText);
+        alert("Error: " + response.statusText);
       }
     })
     .catch(function () {
@@ -89,66 +56,78 @@ var coinGekcoCat = "https://api.coingecko.com/api/v3/coins/categories/list"
     })
 }
 
-cryptoApi();
+// cryptoApi();
 
 
 function stockApi() {
-  var coinPolygonReference = "https://api.polygon.io/v3/reference/tickers?market=stocks&active=true&apiKey=UAmJhIVKMGMQmJfv7Tja6hKiWkViJV6z";
-  var input = "Electronic"
-  coinPolygonReference = ("https://api.polygon.io/v3/reference/tickers?market=stocks&active=true&search=" + input + "&apiKey=UAmJhIVKMGMQmJfv7Tja6hKiWkViJV6z")
-  console.log(coinPolygonReference)
+  var coinPolygonReference =
+    "https://api.polygon.io/v3/reference/tickers?market=stocks&active=true&apiKey=UAmJhIVKMGMQmJfv7Tja6hKiWkViJV6z";
+  var input = "Electronic";
+  coinPolygonReference =
+    "https://api.polygon.io/v3/reference/tickers?market=stocks&active=true&search=" +
+    input +
+    "&apiKey=UAmJhIVKMGMQmJfv7Tja6hKiWkViJV6z";
+  console.log(coinPolygonReference);
   fetch(coinPolygonReference)
     .then(function (response) {
-      console.log(response)
+      console.log(response);
       if (response.ok) {
         response.json().then(function (data) {
-          console.log(data)
+          console.log(data);
           showStockResults(data);
         });
       } else {
-        alert('Error: ' + response.statusText);
+        alert("Error: " + response.statusText);
       }
     })
     .catch(function () {
-      alert('Unable to connect to GitHub');
-    })
+      alert("Unable to connect to GitHub");
+    });
 }
 
+///////// Query "value" from stock API /////////
+function getStockApi(value) {
+  coinPolygonReference = `https://api.polygon.io/v3/reference/tickers?market=stocks&active=true&search=${value}&apiKey=UAmJhIVKMGMQmJfv7Tja6hKiWkViJV6z`;
+  console.log(coinPolygonReference);
+  fetch(coinPolygonReference)
+    .then(function (response) {
+      if (response.ok) {
+        response.json().then(function (data) {
+          showStockResults(data);
+        });
+      } else {
+        alert("Error: " + response.statusText);
+      }
+    })
+    .catch(function () {
+      alert("Unable to connect to GitHub");
+    });
+}
 
+///////// Defines the HTML elements /////////
+var toggleEl = document.getElementById("cryptoStockToggle");
+var searchEl = document.getElementById("searchBtn");
+var searchInputEl = document.getElementById("searchInput");
 
-stockApi();
+///////// Add the Search button event listener /////////
+searchEl.addEventListener("click", () => {
+  if (toggleEl.checked) getStockApi(searchInputEl.value);
+});
 
+// stockApi();
 
-
-
-var valueOptions = document.querySelector("#format-input-category");
-var valueCategory = document.querySelector('#format-input-type'); 
+var hideValueOptions = document.querySelector("#format-input-category");
+var hideValueCategory = document.querySelector('#format-input-type'); 
 
 valueOptions.style.visibility = "hidden";
 
 
-valueCategory.addEventListener('change', function (event) {
+hideValueCategory.addEventListener('change', function (event) {
  if (event.target.value == "stocks") {
-  valueOptions.removeAttribute("style");
+  hideValueOptions.removeAttribute("style");
  }
 
 else {
   
 }
 })
- 
-
-function makeOptions(data){ //needs to add innertext
-
-  var valueOptions = document.querySelector("#format-input-category");
-
-    for (var i = 0; i < 15; i++) {
-          var makeOption = document.createElement("option")
-            
-            makeOption.setAttribute("value", data[i].category_id)
-            makeOption.innerHTML = data[i].category_id;
-            valueOptions.appendChild(makeOption);
-
-    }
-  }
-
