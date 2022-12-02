@@ -7,10 +7,6 @@ function showResults(resultObj) {
   result.innerHTML = resultObj.results[1].ticker; 
   var inputData = document.querySelector("#textResult");
   inputData.append(result);
-
-
-
-
 }
 
 
