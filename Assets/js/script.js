@@ -52,9 +52,9 @@ function showCryptoResults(resultObj) {
 
 
 function cryptoApi() {
-  var input = "Music"
+  var input = "music"
   var coinGeckoApi = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=" + input + "&order=market_cap_desc&per_page=10&page=1&sparkline=false";
-  
+
   fetch(coinGeckoApi)
     .then(function (response) {
       if (response.ok) {
@@ -62,6 +62,23 @@ function cryptoApi() {
           console.log("This is crypto")
           console.log(data)
           showCryptoResults(data);
+        });
+      } else {
+        alert('Error: ' + response.statusText);
+      }
+    })
+    .catch(function () {
+      alert('Unable to connect to GitHub');
+    })
+var coinGekcoCat = "https://api.coingecko.com/api/v3/coins/categories/list"  
+    fetch(coinGekcoCat)
+    .then(function (response) {
+      if (response.ok) {
+        response.json().then(function (data) {
+          console.log("This is crypto cats")
+          console.log(data)
+          showCryptoResults(data);
+          makeOptions(data);
         });
       } else {
         alert('Error: ' + response.statusText);
@@ -104,18 +121,34 @@ stockApi();
 
 
 
-var hideValueOptions = document.querySelector("#format-input-category");
-var hideValueCategory = document.querySelector('#format-input-type'); 
+var valueOptions = document.querySelector("#format-input-category");
+var valueCategory = document.querySelector('#format-input-type'); 
 
-hideValueOptions.style.visibility = "hidden";
+valueOptions.style.visibility = "hidden";
 
 
-hideValueCategory.addEventListener('change', function (event) {
+valueCategory.addEventListener('change', function (event) {
  if (event.target.value == "stocks") {
-  hideValueOptions.removeAttribute("style");
+  valueOptions.removeAttribute("style");
  }
 
 else {
   
 }
 })
+ 
+
+function makeOptions(data){ //needs to add innertext
+
+  var valueOptions = document.querySelector("#format-input-category");
+
+    for (var i = 0; i < 15; i++) {
+          var makeOption = document.createElement("option")
+            
+            makeOption.setAttribute("value", data[i].category_id)
+            makeOption.innerHTML = data[i].category_id;
+            valueOptions.appendChild(makeOption);
+
+    }
+  }
+
