@@ -52,8 +52,8 @@ function showCryptoResults(resultObj) {
 
 
 function cryptoApi() {
-  
-  var coinGeckoApi = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=music&order=market_cap_desc&per_page=10&page=1&sparkline=false";
+  var input = "Music"
+  var coinGeckoApi = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=" + input + "&order=market_cap_desc&per_page=10&page=1&sparkline=false";
   
   fetch(coinGeckoApi)
     .then(function (response) {
