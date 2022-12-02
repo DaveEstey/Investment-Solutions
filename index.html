@@ -1,42 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/daisyui@2.42.1/dist/full.css"
-      rel="stylesheet"
-      type="text/css"
-    />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <title>Document</title>
-<<<<<<< HEAD
-</head>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@2.42.1/dist/full.css" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="./Assets/css/style.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Project 1-Group 3</title>
+
 <body>
-    <textarea id="text"></textarea> 
-</body>
-=======
-  </head>
-  <body>
-    <header>
-      <h2 class="text-4xl">Crypto Dashboard</h2>
-    </header>
-    <main class="container bg-gray-100">
-      <section
-        class="grid md:grid-cols-4 gap-2 bg-gray-200 min-h-screen"
-        id="intro"
-      >
-        <section class="md:col-span-1 flex flex-col p-2" id="search-col">
-          <div class="history flex flex-col" id="history"></div>
-        </section>
-        <section class="md:col-span-3 bg-gray-300">
-            <input type="text" class="input" id="input">
-        </section>
-        <textarea name="resultArea" id="textResult" cols="30" rows="10"></textarea>
+  <header>
+    <h2 class="text-4xl">Crypto Dashboard</h2>
+  </header>
+  <main class="container bg-gray-100">
+    <section class="grid md:grid-cols-4 gap-2 bg-gray-200 min-h-screen" id="intro">
+      <section class="md:col-span-1 flex flex-col p-2" id="search-col">
+        <div class="history flex flex-col" id="history"></div>
       </section>
-    </main>
-  </body>
->>>>>>> a6451e0d60df01bd51b8a3f9757d0325c9f7c93d
+      <section class="md:col-span-3 bg-gray-300">
+        <select id="format-input-category" class="form-input w-100">
+          <option value="" disabled selected>Select a format...</option>
+          <option value="electronics">Electronics</option>
+          <option value="banking">Banking</option>
+        </select>
+        <select id="format-input-type" class="form-input w-100">
+          <option value="" disabled selected>Select a format...</option>
+          <option value="crypto">Crypto</option>
+          <option value="stocks">Stocks</option>
+        </select>
+        <input type="text" class="input" id="input">
+        <button class="btn btn-info btn-block">Search</button>
+      </section>
+      <p id="textResult"></p>
+    </section>
+  </main>
+</body>
+
 </html>
 <script src="Assets\js\script.js"></script>

@@ -32,7 +32,15 @@ function showStockResults(resultObj) {
 function showCryptoResults(resultObj) {
 
   var inputData = document.querySelector("#textResult");
-  inputData.append(result);
+  inputData.innerHTML = ""
+  
+  for (var i = 0; (i < resultObj.length); i++) {
+    var result = document.createElement("div");
+    result.innerHTML = resultObj[i].name;
+
+    inputData.appendChild(result);
+  }
+
 
 
 
@@ -94,3 +102,21 @@ function stockApi() {
 
 stockApi();
 
+
+
+
+var hideValueOptions = document.querySelector("#format-input-category");
+var hideValueCategory = document.querySelector('#format-input-type'); 
+
+hideValueOptions.style.visibility = "hidden";
+
+
+hideValueCategory.addEventListener('change', function (event) {
+ if (event.target.value == "stocks") {
+  hideValueOptions.removeAttribute("style");
+ }
+
+else {
+  
+}
+})
