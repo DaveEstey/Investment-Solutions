@@ -16,5 +16,9 @@ h6 {
 
 #textResult {
   background-color: white;
+}
+
+p {
+  min-height: 25px;
   color: black;
 }
