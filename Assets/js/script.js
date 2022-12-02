@@ -42,9 +42,6 @@ function showCryptoResults(resultObj) {
   }
 
 
-
-
-
 }
 
 
@@ -55,13 +52,14 @@ function showCryptoResults(resultObj) {
 
 
 function cryptoApi() {
-  console.log(coinGeckoApi);
-  var coinGeckoApi = "https://api.coingecko.com/api/v3/coins/categories/list";
-
+  
+  var coinGeckoApi = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=music&order=market_cap_desc&per_page=10&page=1&sparkline=false";
+  
   fetch(coinGeckoApi)
     .then(function (response) {
       if (response.ok) {
         response.json().then(function (data) {
+          console.log("This is crypto")
           console.log(data)
           showCryptoResults(data);
         });
@@ -75,6 +73,7 @@ function cryptoApi() {
 }
 
 cryptoApi();
+
 
 function stockApi() {
   var coinPolygonReference = "https://api.polygon.io/v3/reference/tickers?market=stocks&active=true&apiKey=UAmJhIVKMGMQmJfv7Tja6hKiWkViJV6z";
