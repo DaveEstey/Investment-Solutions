@@ -4,7 +4,7 @@ function takeInput() {
   var formatCategory = document.querySelector("#format-input-category");
 }
 
-function searchData() {}
+function searchData() { }
 
 function showStockResults(resultObj) {
   var contentEl = document.getElementById("content");
@@ -16,7 +16,7 @@ function showStockResults(resultObj) {
     var result = document.createElement("div");
     result.innerHTML = resultObj.results[i].ticker;
 
-    inputData.appendChild(result);
+    .appendChild(result);
   } */
 }
 function showCryptoResults(resultObj) {
@@ -110,6 +110,7 @@ function getStockApi(value) {
       if (response.ok) {
         response.json().then(function (data) {
           showStockResults(data);
+          makeOptions(data);
         });
       } else {
         alert("Error: " + response.statusText);
@@ -131,16 +132,16 @@ searchEl.addEventListener("click", () => {
   if (!toggleEl.checked) getCryptoApi(searchInputEl.value);
 });
 
-// stockApi();
 
-var hideValueOptions = document.querySelector("#format-input-category");
-var hideValueCategory = document.querySelector("#format-input-type");
-
-valueOptions.style.visibility = "hidden";
-
-hideValueCategory.addEventListener("change", function (event) {
-  if (event.target.value == "stocks") {
-    hideValueOptions.removeAttribute("style");
-  } else {
+function makeOptions(data) { //needs STYLING AND CHANGE TO OTHER INPUT FEILD
+  var makeOption = [];
+  for (var i = 0; i < data.results.length; i++) {
+   makeOption = makeOption.concat(data.results[i].ticker);
   }
-});
+  $(function () {
+    $("#searchInput").autocomplete({
+      source: makeOption
+    });
+  });
+}
+
