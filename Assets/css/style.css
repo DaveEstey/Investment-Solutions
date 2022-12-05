@@ -26,3 +26,20 @@ p {
 div {
   color: black;
 }
+
+.ui-menu-item {
+  font-family: 'Kdam Thmor Pro', sans-serif;
+  font-size: 15px;
+}
+
+.ticker {
+  font-family: 'Kdam Thmor Pro', sans-serif;
+  font-size: large;
+
+  
+}
+
+.text-4xl {
+  font-family: 'Cinzel', serif;
+  
+  }
