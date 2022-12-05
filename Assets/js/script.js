@@ -145,3 +145,9 @@ function makeOptions(data) { //needs STYLING AND CHANGE TO OTHER INPUT FEILD
   });
 }
 
+
+document.querySelector('#resetBtn').addEventListener('click', () => {
+  window.location.reload(true);
+  });
+
+
