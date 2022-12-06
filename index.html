@@ -9,22 +9,32 @@
       rel="stylesheet"
       type="text/css"
     />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Kdam+Thmor+Pro&display=swap" rel="stylesheet">
-    <style> @import url('https://fonts.googleapis.com/css2?family=Kdam+Thmor+Pro&display=swap'); </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kdam+Thmor+Pro&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Kdam+Thmor+Pro&display=swap");
+    </style>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet">
-    <style> @import url('https://fonts.googleapis.com/css2?family=Cinzel&display=swap'); </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet" />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Cinzel&display=swap");
+    </style>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    <style> @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap'); </style>
-
-
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+    </style>
 
     <link rel="stylesheet" href="./Assets/css/style.css" />
     <script defer src="https://cdn.tailwindcss.com"></script>
@@ -54,25 +64,15 @@
                 class="input input-bordered"
                 id="searchInput"
               />
+              <select class="select select-bordered w-full max-w-xs" id="dropDownCategory">
+                <option disabled selected>Who shot first?</option>
+              </select>
             </div>
             <button class="btn btn-info btn-block" id="searchBtn">Search</button>
             <button class="btn btn-info btn-block" id="resetBtn">Reset</button>
           </div>
         </section>
-        <section class="md:col-span-3 bg-gray-300" id="content">
-          <select id="format-input-category" class="form-input w-100">
-            <option value="" disabled selected>Select a format...</option>
-           <!-- <option value="electronics">Electronics</option> 
-            <option value="banking">Banking</option> -->
-          </select>
-          <select id="format-input-stocks" class="form-input w-100">
-            <option value="" disabled selected>Select a format...</option>
-            <option value="crypto">Crypto</option>
-            <option value="stocks">Stocks</option>
-          </select>
-          <input type="text" class="input" id="input" />
-        </section>
-        <p id="textResult"></p>
+        <section class="md:col-span-3 bg-gray-300" id="content"></section>
       </section>
     </main>
   </body>
