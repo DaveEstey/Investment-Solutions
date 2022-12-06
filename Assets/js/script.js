@@ -1,8 +1,10 @@
+var contentEl = document.getElementById("content");
+
 function showStockResults(resultObj) {
-  var contentEl = document.getElementById("content");
-  contentEl.innerHTML = `<textarea class="textarea h-full w-full" id="savedText" placeholder="Bio">${JSON.stringify(
+  /*   contentEl.innerHTML = `<textarea class="textarea h-full w-full" placeholder="Bio">${JSON.stringify(
     resultObj
-  )}</textarea>`;
+  )}</textarea>`; */
+  printCards(resultObj);
 }
 function showCryptoResults(resultObj) {
   for (var i = 0; i < resultObj.length; i++) {
@@ -14,6 +16,23 @@ function showCryptoResults(resultObj) {
   }
 }
 
+var printCards = (data) => {
+  contentEl.innerHTML = "";
+  data.forEach((element) => {
+    var card = document.createElement("div");
+    card.innerHTML = `<div class="card w-64 bg-white shadow-xl m-5">
+    <figure class="m-3"><img src="${element.image}" alt="Shoes" /></figure>
+    <div class="card-body">
+      <p>${element.name}</p>
+      <div class="card-actions justify-end">  
+        <button class="btn btn-primary">See More</button>
+      </div>
+    </div>
+  </div>`;
+    contentEl.append(card);
+  });
+};
+
 function getCryptoApi(value) {
   var coinGeckoApi = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=${value}&order=market_cap_desc&per_page=10&page=1&sparkline=false`;
 
@@ -22,6 +41,7 @@ function getCryptoApi(value) {
       if (response.ok) {
         response.json().then(function (data) {
           console.log(data);
+          printCards(data);
           showStockResults(data);
           makeOptions(data);
         });
@@ -113,15 +133,6 @@ function makeOptions(data) {
   }
  } */
 
-$('#saveBtn').on('click', function(){
-var infoSaved = document.querySelector('#savedText');
-localStorage.setItem('saveData', JSON.stringify(infoSaved))
-})
-
-
-
-
-
-
-
-
+document.querySelector("#resetBtn").addEventListener("click", () => {
+  window.location.reload(true);
+});
