@@ -53,7 +53,7 @@ var printCryptoCards = (data) => {
     <div class="card-body">
       <p>${element.name}</p>
       <div class="card-actions justify-end">  
-        <button class="btn btn-primary">See More</button>
+      <label for="main-modal" class="btn btn-primary" id=${element.ticker}>open modal</label>
       </div>
     </div>
   </div>`;
@@ -75,6 +75,7 @@ var printStockCards = (data) => {
     </div>
   </div>`;
     contentEl.append(card);
+    
   });
 };
 
@@ -107,6 +108,34 @@ function getStockNews(ticker) {
       alert("Unable to connect to GitHub");
     });
 }
+function getCryptoInfo(ticker) {
+  var getCryptoInfo = `https://api.coingecko.com/api/v3/simple/price?ids=${ticker}&vs_currencies=usd&include_market_cap=true&include_24hr_vol=true&include_24hr_change=true`
+
+  fetch(getCryptoInfo)
+    .then(function (response) {
+      modalTitle.innerHTML = "";
+      modalText.innerHTML = "";
+      if (response.ok) {
+        response.json().then(function (data) {
+          console.log(data);
+
+          if (data.results.length > 0) {
+            modalTitle.innerHTML = "this is a test";
+            saveInfo(data);
+          } else {
+            modalTitle.innerHTML = "No News Found";
+            modalText.innerHTML = "No news found for this specific ticker";
+          }
+        });
+      } else {
+        modalTitle.innerHTML = "Error fetching news";
+        modalText.innerHTML = `Code: ${response.status}`;
+      }
+    })
+    .catch(function () {
+      alert("Unable to connect to GitHub");
+    });
+}
 
 function getCryptoApi(value) {
   var coinGeckoApi = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=${value}&order=market_cap_desc&per_page=10&page=1&sparkline=false`;
@@ -119,8 +148,7 @@ function getCryptoApi(value) {
           printCryptoCards(data);
         });
       } else {
-        var modalTitle = document.getElementById("modal-title");
-        var modalText = document.getElementById("modal-text");
+        
       }
     })
     .catch(function () {
@@ -237,7 +265,9 @@ document.querySelector("#resetBtn").addEventListener("click", () => {
 
 contentEl.addEventListener("click", (event) => {
   console.log(event.target.id);
-  getStockNews(event.target.id);
+  if (!toggleEl.checked) getStockNews(event.target.id);
+  if (toggleEl.checked) getCryptoInfo(event.target.id);
+  
 });
 
 function saveInfo(data) {
