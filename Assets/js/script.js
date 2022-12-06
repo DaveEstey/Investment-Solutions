@@ -11,17 +11,17 @@ function showCryptoResults(resultObj) {
   inputData.innerHTML = "";
 
   for (var i = 0; i < resultObj.length; i++) {
-    var result = document.createElement("button");
+    var result = document.createElement("option");
     result.innerHTML = resultObj[i].name;
-    result.setAttribute("class", resultObj[i].category_id )
+    result.setAttribute("value", resultObj[i].category_id )
 
-    inputData.appendChild(result);
+    dropDownEl.appendChild(result);
   }
 }
-/* 
+ 
 function getCryptoApi(value) {
   var coinGeckoApi = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=${value}&order=market_cap_desc&per_page=10&page=1&sparkline=false`;
-
+  
   fetch(coinGeckoApi)
     .then(function (response) {
       if (response.ok) {
@@ -37,7 +37,7 @@ function getCryptoApi(value) {
     .catch(function () {
       alert("Unable to connect to GitHub");
     });
-} */
+} 
 
 function getCryptoCatagories() {
   var coinGeckoApi = "https://api.coingecko.com/api/v3/coins/categories/list"
@@ -82,13 +82,14 @@ function getStockApi(value) {
 ///////// Defines the HTML elements /////////
 var toggleEl = document.getElementById("cryptoStockToggle");
 var searchEl = document.getElementById("searchBtn");
-var searchInputEl = document.getElementById("searchInput");
+var dropDownEl = document.getElementById("format-input-category");
 
 ///////// Add the Search button event listener /////////
-searchEl.addEventListener("click", () => {
-  if (toggleEl.checked) getStockApi(searchInputEl.value);
-  if (!toggleEl.checked) getCryptoCatagories();
+dropDownEl.addEventListener("change", () => {
+getCryptoApi(dropDownEl.value);
 });
+getCryptoCatagories();
+
 
 
 function makeOptions(data) { //needs STYLING AND CHANGE TO OTHER INPUT FEILD
@@ -97,7 +98,7 @@ function makeOptions(data) { //needs STYLING AND CHANGE TO OTHER INPUT FEILD
     for (var i = 0; i < data.results.length; i++) {
    makeOption = makeOption.concat(data.results[i].ticker);
   }
-}else {
+} else {
   for (var i = 0; i < data.length; i++) {
     makeOption = makeOption.concat(data[i].name);
 }
