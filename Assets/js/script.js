@@ -1,9 +1,10 @@
-///////// Defines the HTML elements /////////
+/////////// Defines the HTML elements /////////
 var toggleEl = document.getElementById("cryptoStockToggle");
 var dropDownEl = document.getElementById("dropDownCategory");
 var contentEl = document.getElementById("content");
 var modalTitle = document.getElementById("modal-title");
 var modalText = document.getElementById("modal-text");
+var modalSave = document.getElementById("modal-check");
 
 function showStockResults(resultObj) {
   clearDropDown();
@@ -89,8 +90,9 @@ function getStockNews(ticker) {
           console.log(data);
 
           if (data.results.length > 0) {
-            modalTitle.innerHTML = data.results[0].title;
+            modalTitle.innerHTML = `<a href=${data.results[0].article_url} target= "_blank">${data.results[0].title}<a/>`
             modalText.innerHTML = data.results[0].description;
+            saveInfo(data);
           } else {
             modalTitle.innerHTML = "No News Found";
             modalText.innerHTML = "No news found for this specific ticker";
@@ -237,3 +239,9 @@ contentEl.addEventListener("click", (event) => {
   console.log(event.target.id);
   getStockNews(event.target.id);
 });
+
+function saveInfo(data) {
+      console.log(data);
+      newItem = data.results[0].ticker
+      localStorage.setItem(newItem, JSON.stringify(data));
+    }
