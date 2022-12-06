@@ -1,6 +1,6 @@
 function showStockResults(resultObj) {
   var contentEl = document.getElementById("content");
-  contentEl.innerHTML = `<textarea class="textarea h-full w-full" placeholder="Bio">${JSON.stringify(
+  contentEl.innerHTML = `<textarea class="textarea h-full w-full" id="savedText" placeholder="Bio">${JSON.stringify(
     resultObj
   )}</textarea>`;
 
@@ -119,7 +119,15 @@ function makeOptions(data) { //needs STYLING AND CHANGE TO OTHER INPUT FEILD
   }
  } */
 
-document.querySelector('#resetBtn').addEventListener('click', () => {
-  window.location.reload(true);
-  });
+$('#saveBtn').on('click', function(){
+var infoSaved = document.querySelector('#savedText');
+localStorage.setItem('saveData', JSON.stringify(infoSaved))
+})
+
+
+
+
+
+
+
 
