@@ -3,32 +3,27 @@ function showStockResults(resultObj) {
   contentEl.innerHTML = `<textarea class="textarea h-full w-full" id="savedText" placeholder="Bio">${JSON.stringify(
     resultObj
   )}</textarea>`;
-
-  
 }
 function showCryptoResults(resultObj) {
-  var inputData = document.querySelector("#textResult");
-  inputData.innerHTML = "";
-
   for (var i = 0; i < resultObj.length; i++) {
     var result = document.createElement("option");
     result.innerHTML = resultObj[i].name;
-    result.setAttribute("value", resultObj[i].category_id )
+    result.setAttribute("value", resultObj[i].category_id);
 
     dropDownEl.appendChild(result);
   }
 }
- 
+
 function getCryptoApi(value) {
   var coinGeckoApi = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=${value}&order=market_cap_desc&per_page=10&page=1&sparkline=false`;
-  
+
   fetch(coinGeckoApi)
     .then(function (response) {
       if (response.ok) {
         response.json().then(function (data) {
           console.log(data);
           showStockResults(data);
-          makeOptions(data)
+          makeOptions(data);
         });
       } else {
         alert("Error: " + response.statusText);
@@ -37,10 +32,10 @@ function getCryptoApi(value) {
     .catch(function () {
       alert("Unable to connect to GitHub");
     });
-} 
+}
 
 function getCryptoCatagories() {
-  var coinGeckoApi = "https://api.coingecko.com/api/v3/coins/categories/list"
+  var coinGeckoApi = "https://api.coingecko.com/api/v3/coins/categories/list";
 
   fetch(coinGeckoApi)
     .then(function (response) {
@@ -48,7 +43,7 @@ function getCryptoCatagories() {
         response.json().then(function (data) {
           console.log(data);
           showCryptoResults(data);
-          makeOptions(data)
+          makeOptions(data);
         });
       } else {
         alert("Error: " + response.statusText);
@@ -82,32 +77,31 @@ function getStockApi(value) {
 ///////// Defines the HTML elements /////////
 var toggleEl = document.getElementById("cryptoStockToggle");
 var searchEl = document.getElementById("searchBtn");
-var dropDownEl = document.getElementById("format-input-category");
+var dropDownEl = document.getElementById("dropDownCategory");
 
 ///////// Add the Search button event listener /////////
 dropDownEl.addEventListener("change", () => {
-getCryptoApi(dropDownEl.value);
+  getCryptoApi(dropDownEl.value);
 });
 getCryptoCatagories();
 
-
-
-function makeOptions(data) { //needs STYLING AND CHANGE TO OTHER INPUT FEILD
+function makeOptions(data) {
+  //needs STYLING AND CHANGE TO OTHER INPUT FEILD
   var makeOption = [];
-  if (toggleEl.checked){
+  if (toggleEl.checked) {
     for (var i = 0; i < data.results.length; i++) {
-   makeOption = makeOption.concat(data.results[i].ticker);
-  }
-} else {
-  for (var i = 0; i < data.length; i++) {
-    makeOption = makeOption.concat(data[i].name);
-}
-  $(function () {
-    $("#searchInput").autocomplete({
-      source: makeOption
-    });
-  });
+      makeOption = makeOption.concat(data.results[i].ticker);
     }
+  } else {
+    for (var i = 0; i < data.length; i++) {
+      makeOption = makeOption.concat(data[i].name);
+    }
+    $(function () {
+      $("#searchInput").autocomplete({
+        source: makeOption,
+      });
+    });
+  }
 }
 
 /* function makeCatagories(cataData){
