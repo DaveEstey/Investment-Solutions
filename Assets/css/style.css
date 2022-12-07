@@ -23,9 +23,7 @@ p {
   color: black;
 }
 
-div {
-  color: black;
-}
+
 
 .ui-menu-item {
   font-family: 'Kdam Thmor Pro', sans-serif;
@@ -43,3 +41,8 @@ div {
   font-family: 'Cinzel', serif;
   
   }
+
+a:hover{
+  color: lightblue;
+  text-decoration: underline;
+}

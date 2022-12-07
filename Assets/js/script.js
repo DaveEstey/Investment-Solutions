@@ -46,14 +46,14 @@ function toggleModal() {
 
 var printCryptoCards = (data) => {
   clearContent();
-  data.forEach((element) => {
+  data.slice(0,20).forEach((element) => {
     var card = document.createElement("div");
     card.innerHTML = `<div class="card w-64 bg-white shadow-xl m-5">
     <figure class="m-3"><img src="${element.image}" alt="Shoes" /></figure>
     <div class="card-body">
       <p>${element.name}</p>
       <div class="card-actions justify-end">  
-      <label for="main-modal" class="btn btn-primary" id=${element.ticker}>open modal</label>
+      <label for="main-modal" class="btn btn-primary" id=${element.id}>open modal</label>
       </div>
     </div>
   </div>`;
@@ -63,7 +63,7 @@ var printCryptoCards = (data) => {
 
 var printStockCards = (data) => {
   clearContent();
-  data.forEach((element) => {
+  data.slice(0,20).forEach((element) => {
     var card = document.createElement("div");
     card.innerHTML = `<div class="card w-64 bg-white shadow-xl m-5">
     <div class="card-body">
@@ -75,7 +75,7 @@ var printStockCards = (data) => {
     </div>
   </div>`;
     contentEl.append(card);
-    
+
   });
 };
 
@@ -117,15 +117,9 @@ function getCryptoInfo(ticker) {
       modalText.innerHTML = "";
       if (response.ok) {
         response.json().then(function (data) {
-          console.log(data);
-
-          if (data.results.length > 0) {
-            modalTitle.innerHTML = "this is a test";
-            saveInfo(data);
-          } else {
-            modalTitle.innerHTML = "No News Found";
-            modalText.innerHTML = "No news found for this specific ticker";
-          }
+            console.log(data);
+            var dataArr = Object.keys(data)[0]
+       modalTitle.innerHTML = `<p> Name: ${ticker} <br> Price: ${data[dataArr].usd} <br> Market Cap: ${data[dataArr].usd_market_cap} <br> 24h Change: ${data[dataArr].usd_24h_change} <br> 24h Volume: ${data[dataArr].usd_24h_vol} </p>`;
         });
       } else {
         modalTitle.innerHTML = "Error fetching news";
@@ -265,8 +259,8 @@ document.querySelector("#resetBtn").addEventListener("click", () => {
 
 contentEl.addEventListener("click", (event) => {
   console.log(event.target.id);
-  if (!toggleEl.checked) getStockNews(event.target.id);
-  if (toggleEl.checked) getCryptoInfo(event.target.id);
+  if (toggleEl.checked) getStockNews(event.target.id);
+  if (!toggleEl.checked) getCryptoInfo(event.target.id);
   
 });
 
