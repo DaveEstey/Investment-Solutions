@@ -2,6 +2,7 @@
 var toggleEl = document.getElementById("cryptoStockToggle");
 var dropDownEl = document.getElementById("dropDownCategory");
 var contentEl = document.getElementById("content");
+var mainModal = document.getElementById("main-modal");
 var modalTitle = document.getElementById("modal-title");
 var modalText = document.getElementById("modal-text");
 var modalSave = document.getElementById("modal-check");
@@ -38,44 +39,48 @@ function clearDropDown() {
     </option>`;
 }
 
-function toggleModal() {
-  var mainModal = document.getElementById("main-modal");
-
-  if (mainModal.checked) !mainModal.checked;
+function updateModal(title, text) {
+  modalTitle.innerHTML = title ? title : "";
+  modalText.innerHTML = text ? text : "";
+  mainModal.checked = true;
 }
 
 var printCryptoCards = (data) => {
   clearContent();
-  data.slice(0,20).forEach((element) => {
+  data.slice(0, 20).forEach((element) => {
     var card = document.createElement("div");
-    card.innerHTML = `<div class="card w-64 bg-white shadow-xl m-5">
-    <figure class="m-3"><img src="${element.image}" alt="Shoes" /></figure>
-    <div class="card-body">
-      <p>${element.name}</p>
-      <div class="card-actions justify-end">  
-      <label for="main-modal" class="btn btn-primary" id=${element.id}>open modal</label>
+    card.innerHTML = `
+      <div class="card w-64 bg-white shadow-xl m-5">
+        <figure class="m-3">
+          <img src="${element.image}" alt="Shoes" />
+        </figure>
+        <div class="card-body">
+          <p>${element.name}</p>
+          <div class="card-actions justify-end">  
+            <label for="main-modal" class="btn btn-primary w-full" id=${element.id}>See More</label>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>`;
+  `;
     contentEl.append(card);
   });
 };
 
 var printStockCards = (data) => {
   clearContent();
-  data.slice(0,20).forEach((element) => {
+  data.slice(0, 20).forEach((element) => {
     var card = document.createElement("div");
-    card.innerHTML = `<div class="card w-64 bg-white shadow-xl m-5">
-    <div class="card-body">
-      <h3 class="card-title">${element.name}</h3>
-      <p>Ticker: ${element.ticker}</p>
-      <div class="card-actions justify-end">  
-        <label for="main-modal" class="btn btn-primary" id=${element.ticker}>open modal</label>
+    card.innerHTML = `
+    <div class="card w-64 bg-white shadow-xl m-5">
+      <div class="card-body">
+        <h3 class="card-title">${element.name}</h3>
+        <p>Ticker: ${element.ticker}</p>
+        <div class="card-actions justify-end">  
+          <label for="main-modal" class="btn btn-primary w-full" id=${element.ticker}>See More</label>
+        </div>
       </div>
-    </div>
-  </div>`;
+    </div>`;
     contentEl.append(card);
-
   });
 };
 
@@ -84,50 +89,45 @@ function getStockNews(ticker) {
 
   fetch(getNewsApi)
     .then(function (response) {
-      modalTitle.innerHTML = "";
-      modalText.innerHTML = "";
       if (response.ok) {
         response.json().then(function (data) {
-          console.log(data);
-
           if (data.results.length > 0) {
-            modalTitle.innerHTML = `<a href=${data.results[0].article_url} target= "_blank">${data.results[0].title}<a/>`
-            modalText.innerHTML = data.results[0].description;
+            updateModal(
+              `<a href=${data.results[0].article_url} target= "_blank">${data.results[0].title}<a/>`,
+              data.results[0].description
+            );
             saveInfo(data);
           } else {
-            modalTitle.innerHTML = "No News Found";
-            modalText.innerHTML = "No news found for this specific ticker";
+            updateModal("No News Found", "No news found for this specific ticker");
           }
         });
       } else {
-        modalTitle.innerHTML = "Error fetching news";
-        modalText.innerHTML = `Code: ${response.status}`;
+        updateModal("Error fetching news", `Code: ${response.status}`);
       }
     })
     .catch(function () {
-      alert("Unable to connect to GitHub");
+      updateModal("Unable To Fetch API");
     });
 }
+
 function getCryptoInfo(ticker) {
-  var getCryptoInfo = `https://api.coingecko.com/api/v3/simple/price?ids=${ticker}&vs_currencies=usd&include_market_cap=true&include_24hr_vol=true&include_24hr_change=true`
+  var getCryptoInfo = `https://api.coingecko.com/api/v3/simple/price?ids=${ticker}&vs_currencies=usd&include_market_cap=true&include_24hr_vol=true&include_24hr_change=true`;
 
   fetch(getCryptoInfo)
     .then(function (response) {
-      modalTitle.innerHTML = "";
-      modalText.innerHTML = "";
       if (response.ok) {
         response.json().then(function (data) {
-            console.log(data);
-            var dataArr = Object.keys(data)[0]
-       modalTitle.innerHTML = `<p> Name: ${ticker} <br> Price: ${data[dataArr].usd} <br> Market Cap: ${data[dataArr].usd_market_cap} <br> 24h Change: ${data[dataArr].usd_24h_change} <br> 24h Volume: ${data[dataArr].usd_24h_vol} </p>`;
+          var dataArr = Object.keys(data)[0];
+          updateModal(
+            `<p> Name: ${ticker} <br> Price: ${data[dataArr].usd} <br> Market Cap: ${data[dataArr].usd_market_cap} <br> 24h Change: ${data[dataArr].usd_24h_change} <br> 24h Volume: ${data[dataArr].usd_24h_vol} </p>`
+          );
         });
       } else {
-        modalTitle.innerHTML = "Error fetching news";
-        modalText.innerHTML = `Code: ${response.status}`;
+        updateModal("Error Fetching News", `Code: ${response.status}`);
       }
     })
     .catch(function () {
-      alert("Unable to connect to GitHub");
+      updateModal("Unable to connect to GitHub");
     });
 }
 
@@ -138,15 +138,13 @@ function getCryptoApi(value) {
     .then(function (response) {
       if (response.ok) {
         response.json().then(function (data) {
-          console.log(data);
           printCryptoCards(data);
         });
       } else {
-        
       }
     })
     .catch(function () {
-      alert("Unable to connect to GitHub");
+      updateModal("Unable to connect to GitHub");
     });
 }
 
@@ -158,20 +156,18 @@ function getStockApi(ticker) {
     .then(function (response) {
       if (response.ok) {
         response.json().then(function (data) {
-          console.log(data);
           printStockCards(data.results);
         });
       } else {
-        modalTitle.innerHTML = "Error fetching news";
-        modalText.innerHTML = `Code: ${response.status}`;
+        updateModal("Error Fetching News", `Code: ${response.status}`);
       }
     })
     .catch(function () {
-      alert("Unable to connect to GitHub");
+      updateModal("Unable to connect to GitHub");
     });
 }
 
-function getCryptoCatagories() {
+function getCryptoCategories() {
   var coinGeckoApi = "https://api.coingecko.com/api/v3/coins/categories/list";
 
   fetch(coinGeckoApi)
@@ -181,11 +177,11 @@ function getCryptoCatagories() {
           showCryptoResults(data);
         });
       } else {
-        alert("Error: " + response.statusText);
+        updateModal("Error Fetching News", `Code: ${response.status}`);
       }
     })
     .catch(function () {
-      alert("Unable to connect to GitHub");
+      updateModal("Unable to connect to GitHub");
     });
 }
 
@@ -200,11 +196,11 @@ function getStockCategories() {
           showStockResults(data.results);
         });
       } else {
-        alert("Error: " + response.statusText);
+        updateModal("Error Fetching News", `Code: ${response.status}`);
       }
     })
     .catch(function () {
-      alert("Unable to connect to GitHub");
+      updateModal("Unable to connect to GitHub");
     });
 }
 
@@ -214,14 +210,12 @@ dropDownEl.addEventListener("change", () => {
   if (toggleEl.checked) getStockApi(dropDownEl.value);
 });
 
-getCryptoCatagories();
-
 toggleEl.addEventListener("change", (event) => {
   isChecked = event.target.checked;
 
   clearContent();
 
-  if (!isChecked) getCryptoCatagories();
+  if (!isChecked) getCryptoCategories();
   else getStockCategories();
 });
 
@@ -258,14 +252,15 @@ document.querySelector("#resetBtn").addEventListener("click", () => {
 });
 
 contentEl.addEventListener("click", (event) => {
-  console.log(event.target.id);
   if (toggleEl.checked) getStockNews(event.target.id);
   if (!toggleEl.checked) getCryptoInfo(event.target.id);
-  
 });
 
 function saveInfo(data) {
-      console.log(data);
-      newItem = data.results[0].ticker
-      localStorage.setItem(newItem, JSON.stringify(data));
-    }
+  console.log(data);
+  newItem = data.results[0].ticker;
+  localStorage.setItem(newItem, JSON.stringify(data));
+}
+
+////////// Starts the application by loading crypto categories //////////
+getCryptoCategories();
