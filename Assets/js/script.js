@@ -84,21 +84,21 @@ var printCryptoCards = (data) => {
       </div>
   `;
     contentEl.append(card);
-    
+
   });
   var seeMore = document.getElementsByClassName("see-more");
-    for (var i = 0; i < seeMore.length; i++) {
-        seeMore[i].addEventListener("click", (event) => {
-			 if (!toggleEl.checked) getCryptoInfo(event.target.id);
-        });
-    }
-   
+  for (var i = 0; i < seeMore.length; i++) {
+    seeMore[i].addEventListener("click", (event) => {
+      if (!toggleEl.checked) getCryptoInfo(event.target.id);
+    });
+  }
+
   var saveBtns = document.getElementsByClassName("saveBtn");
   for (var i = 0; i < seeMore.length; i++) {
     saveBtns[i].addEventListener("click", (event) => {
-        saveCrypto(event.target.id);
+      saveCrypto(event.target.id);
     });
-}
+  }
 };
 
 var printStockCards = (data) => {
@@ -111,13 +111,19 @@ var printStockCards = (data) => {
         <h3 class="card-title">${element.name}</h3>
         <p>Ticker: ${element.ticker}</p>
         <div class="card-actions justify-end">  
-          <label for="main-modal" class="btn btn-primary w-full" id=${element.ticker}>See More</label>
+          <label for="main-modal" class="see-more-stocks btn btn-primary w-full" id=${element.ticker}>See More</label>
         </div>
       </div>
     </div>`;
     contentEl.append(card);
   });
-};
+  var seeMoreStock = document.getElementsByClassName("see-more-stocks");
+  for (var i = 0; i < seeMoreStock.length; i++) {
+    seeMoreStock[i].addEventListener("click", (event) => {
+      getStockNews(event.target.id);
+    });
+  };
+}
 
 function getStockNews(ticker) {
   var getNewsApi = `https://api.polygon.io/v2/reference/news?ticker=${ticker}&apiKey=UAmJhIVKMGMQmJfv7Tja6hKiWkViJV6z`;
@@ -272,7 +278,7 @@ document.querySelector("#resetBtn").addEventListener("click", () => {
 /* contentEl.addEventListener("click", (event) => {
   if (!toggleEl.checked) getCryptoInfo(event.target.id);
   if (toggleEl.checked) getStockNews(event.target.id);
-
+ 
 }); */
 
 
@@ -286,8 +292,8 @@ function saveCrypto(storeCrypto) {
 
 function addListItem(storeCrypto) {
   var listEl = document.createElement("div");
-      listEl.innerHTML = `<button class = btn btn-primary w-full  id=${storeCrypto}> ${capitalize(storeCrypto)} </button>`;
-      myList.appendChild(listEl);
+  listEl.innerHTML = `<button class = btn btn-primary w-full  id=${storeCrypto}> ${capitalize(storeCrypto)} </button>`;
+  myList.appendChild(listEl);
 }
 
 function getMyList() {
@@ -318,4 +324,4 @@ function getMyList() {
 
 ////////// Starts the application by loading crypto categories //////////
 getCryptoCategories();
-getMyList()
+getMyList();
