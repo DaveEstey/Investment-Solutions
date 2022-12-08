@@ -73,11 +73,11 @@ var printCryptoCards = (data) => {
         <div class="card-body">
           <p>${element.name}</p>
           <div class="card-actions justify-end">  
-            <label for="main-modal" class="btn btn-primary w-full" id=${element.id}>See More</label>
+            <label for="main-modal" class="btn btn-primary see-more w-full" id=${element.id} >See More</label>
             <input
               type="checkbox"
-              id="card-save"
-              class="btn btn-sm btn-circle absolute right-4 bottom-3"
+              id="${element.id}"
+              class="btn btn-sm btn-circle saveBtn absolute right-4 bottom-3"
             />
           </div>
         </div>
@@ -86,12 +86,19 @@ var printCryptoCards = (data) => {
     contentEl.append(card);
     
   });
-  
-  var saveBtns = document.getElementById("card-save")
-  
-  saveBtns.addEventListener("click", (event) => {
-    saveCrypto(event.target.parentElement.id(""));
-  });
+  var seeMore = document.getElementsByClassName("see-more");
+    for (var i = 0; i < seeMore.length; i++) {
+        seeMore[i].addEventListener("click", (event) => {
+			 if (!toggleEl.checked) getCryptoInfo(event.target.id);
+        });
+    }
+   
+  var saveBtns = document.getElementsByClassName("saveBtn");
+  for (var i = 0; i < seeMore.length; i++) {
+    saveBtns[i].addEventListener("click", (event) => {
+        saveCrypto(event.target.id);
+    });
+}
 };
 
 var printStockCards = (data) => {
@@ -262,11 +269,11 @@ document.querySelector("#resetBtn").addEventListener("click", () => {
 });
 // NEED TO ADD CLASS TO EVERYTHING TO BE CLICKED INSTEAD OF CONTENT
 
-contentEl.addEventListener("click", (event) => {
+/* contentEl.addEventListener("click", (event) => {
   if (!toggleEl.checked) getCryptoInfo(event.target.id);
   if (toggleEl.checked) getStockNews(event.target.id);
 
-});
+}); */
 
 
 function saveCrypto(storeCrypto) {
@@ -299,6 +306,8 @@ function getMyList() {
     });
   }
 }
+
+
 
 
 
