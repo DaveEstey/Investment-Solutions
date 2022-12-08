@@ -313,6 +313,8 @@ function getMyList() {
   }
 }
 
+document.querySelector("#clearBtn").addEventListener("click", () => { localStorage.clear(); })
+
 
 
 
