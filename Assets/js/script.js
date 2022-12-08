@@ -1,4 +1,4 @@
-/////////// Defines the HTML elements /////////
+////////// Defines the HTML elements //////////
 var toggleEl = document.getElementById("cryptoStockToggle");
 var dropDownEl = document.getElementById("dropDownCategory");
 var contentEl = document.getElementById("content");
@@ -7,6 +7,36 @@ var modalTitle = document.getElementById("modal-title");
 var modalText = document.getElementById("modal-text");
 var modalSave = document.getElementById("modal-check");
 
+////////// Basic functions //////////
+function clearContent() {
+  contentEl.innerHTML = "";
+}
+
+function clearDropDown() {
+  dropDownEl.innerHTML = `<option disabled selected>
+      Please select an option...
+    </option>`;
+}
+
+function updateModal(title, text) {
+  modalTitle.innerHTML = title ? title : "";
+  modalText.innerHTML = text ? text : "";
+  mainModal.checked = true;
+}
+
+function capitalize(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+function toCurrency(value, decimals = 2) {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    minimumFractionDigits: decimals,
+  }).format(value);
+}
+
+//////////  ///////////
 function showStockResults(resultObj) {
   clearDropDown();
   resultObj.forEach((element) => {
@@ -29,22 +59,6 @@ function showCryptoResults(resultObj) {
   }
 }
 
-function clearContent() {
-  contentEl.innerHTML = "";
-}
-
-function clearDropDown() {
-  dropDownEl.innerHTML = `<option disabled selected>
-      Please select an option...
-    </option>`;
-}
-
-function updateModal(title, text) {
-  modalTitle.innerHTML = title ? title : "";
-  modalText.innerHTML = text ? text : "";
-  mainModal.checked = true;
-}
-
 var printCryptoCards = (data) => {
   clearContent();
   data.slice(0, 20).forEach((element) => {
@@ -52,7 +66,7 @@ var printCryptoCards = (data) => {
     card.innerHTML = `
       <div class="card w-64 bg-white shadow-xl m-5">
         <figure class="m-3">
-          <img src="${element.image}" alt="Shoes" />
+          <img class="w-48" src="${element.image}" alt="Shoes" />
         </figure>
         <div class="card-body">
           <p>${element.name}</p>
@@ -111,15 +125,26 @@ function getStockNews(ticker) {
 }
 
 function getCryptoInfo(ticker) {
-  var getCryptoInfo = `https://api.coingecko.com/api/v3/simple/price?ids=${ticker}&vs_currencies=usd&include_market_cap=true&include_24hr_vol=true&include_24hr_change=true`;
+  var getCryptoInfoApi = `https://api.coingecko.com/api/v3/simple/price?ids=${ticker}&vs_currencies=usd&include_market_cap=true&include_24hr_vol=true&include_24hr_change=true`;
 
-  fetch(getCryptoInfo)
+  fetch(getCryptoInfoApi)
     .then(function (response) {
       if (response.ok) {
         response.json().then(function (data) {
           var dataArr = Object.keys(data)[0];
+          const price = data[dataArr].usd;
+          const marketCap = data[dataArr].usd_market_cap;
+          const changeIn24 = data[dataArr].usd_24h_change;
+          const volumeIn24 = data[dataArr].usd_24h_vol;
+
           updateModal(
-            `<p> Name: ${ticker} <br> Price: ${data[dataArr].usd} <br> Market Cap: ${data[dataArr].usd_market_cap} <br> 24h Change: ${data[dataArr].usd_24h_change} <br> 24h Volume: ${data[dataArr].usd_24h_vol} </p>`
+            `<p> ${capitalize(ticker)}</p>`,
+            `<p> Price: USD ${toCurrency(price, 4)}</p>
+            <p>Market Cap: ${toCurrency(marketCap)}</p>
+            <p>24h Change: <span class=${
+              changeIn24 >= 0 ? "text-green-600" : "text-red-600"
+            }>${toCurrency(changeIn24, 5)}</span></p>
+            <p>24h Volume: ${toCurrency(volumeIn24)}</p>`
           );
         });
       } else {
