@@ -7,6 +7,7 @@ var modalTitle = document.getElementById("modal-title");
 var modalText = document.getElementById("modal-text");
 var modalSave = document.getElementById("modal-check");
 var searchCol = document.getElementById("search-col");
+var myList = document.getElementById("myList");
 
 ////////// Basic functions //////////
 function clearContent() {
@@ -73,11 +74,23 @@ var printCryptoCards = (data) => {
           <p>${element.name}</p>
           <div class="card-actions justify-end">  
             <label for="main-modal" class="btn btn-primary w-full" id=${element.id}>See More</label>
+            <input
+              type="checkbox"
+              id="card-save"
+              class="btn btn-sm btn-circle absolute right-4 bottom-3"
+            />
           </div>
         </div>
       </div>
   `;
     contentEl.append(card);
+    
+  });
+  
+  var saveBtns = document.getElementById("card-save")
+  
+  saveBtns.addEventListener("click", (event) => {
+    saveCrypto(event.target.parentElement.id(""));
   });
 };
 
@@ -142,8 +155,7 @@ function getCryptoInfo(ticker) {
             `<p> ${capitalize(ticker)}</p>`,
             `<p> Price: USD ${toCurrency(price, 4)}</p>
             <p>Market Cap: ${toCurrency(marketCap)}</p>
-            <p>24h Change: <span class=${
-              changeIn24 >= 0 ? "text-green-600" : "text-red-600"
+            <p>24h Change: <span class=${changeIn24 >= 0 ? "text-green-600" : "text-red-600"
             }>${toCurrency(changeIn24, 5)}</span></p>
             <p>24h Volume: ${toCurrency(volumeIn24)}</p>`
           );
@@ -251,16 +263,24 @@ document.querySelector("#resetBtn").addEventListener("click", () => {
 // NEED TO ADD CLASS TO EVERYTHING TO BE CLICKED INSTEAD OF CONTENT
 
 contentEl.addEventListener("click", (event) => {
-  if (!toggleEl.checked) saveCrypto(event.target.id), getCryptoInfo(event.target.id);
+  if (!toggleEl.checked) getCryptoInfo(event.target.id);
   if (toggleEl.checked) getStockNews(event.target.id);
 
 });
 
+
 function saveCrypto(storeCrypto) {
-  console.log(storeCrypto);
-  localStorage.setItem(storeCrypto, storeCrypto);
-  var storageArr = Object.keys(localStorage);
-  console.log("store " + storageArr);
+  if (storeCrypto) {
+    localStorage.setItem(storeCrypto, storeCrypto);
+    addListItem(storeCrypto);
+  }
+
+}
+
+function addListItem(storeCrypto) {
+  var listEl = document.createElement("div");
+      listEl.innerHTML = `<button class = btn btn-primary w-full  id=${storeCrypto}> ${capitalize(storeCrypto)} </button>`;
+      myList.appendChild(listEl);
 }
 
 function getMyList() {
@@ -272,10 +292,14 @@ function getMyList() {
     while (i--) {
       var listEl = document.createElement("div");
       listEl.innerHTML = `<button class = btn btn-primary w-full  id=${(localStorage.getItem(keys[i]))}> ${capitalize(localStorage.getItem(keys[i]))} </button>`;
-      searchCol.appendChild(listEl);
+      myList.appendChild(listEl);
     }
+    myList.addEventListener("click", function (event) {
+      getCryptoInfo(event.target.id)
+    });
   }
 }
+
 
 
 
