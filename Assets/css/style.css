@@ -14,13 +14,13 @@ h6 {
 
 
 
+
 #textResult {
   background-color: white;
 }
 
 p {
   min-height: 25px;
-  color: black;
 }
 
 
@@ -45,4 +45,12 @@ p {
 a:hover{
   color: lightblue;
   text-decoration: underline;
+}
+
+#modal-text{
+  color: white
+}
+
+.btn-primary{
+  background-color: gold;
 }

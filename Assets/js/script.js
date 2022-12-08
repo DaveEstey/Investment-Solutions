@@ -6,6 +6,7 @@ var mainModal = document.getElementById("main-modal");
 var modalTitle = document.getElementById("modal-title");
 var modalText = document.getElementById("modal-text");
 var modalSave = document.getElementById("modal-check");
+var searchCol = document.getElementById("search-col");
 
 ////////// Basic functions //////////
 function clearContent() {
@@ -112,7 +113,7 @@ function getStockNews(ticker) {
             );
             saveInfo(data);
           } else {
-            updateModal("No News Found", "No news found for this specific ticker");
+            updateModal("No News Found", "No news found for this specific ticker.");
           }
         });
       } else {
@@ -244,48 +245,44 @@ toggleEl.addEventListener("change", (event) => {
   else getStockCategories();
 });
 
-/* function makeOptions(data) {
-  //needs STYLING AND CHANGE TO OTHER INPUT FEILD
-  var makeOption = [];
-  if (toggleEl.checked) {
-    for (var i = 0; i < data.results.length; i++) {
-      makeOption = makeOption.concat(data.results[i].ticker);
-    }
-  } else {
-    for (var i = 0; i < data.length; i++) {
-      makeOption = makeOption.concat(data[i].name);
-    }
-    $(function () {
-      $("#searchInput").autocomplete({
-        source: makeOption,
-      });
-    });
-  }
-}
- */
-/* function makeCatagories(cataData){
- for (var i = 0; i < resultObj.results.length; i++) {
-    var result = document.createElement("div");
-    result.innerHTML = resultObj.results[i].ticker;
-
-    .appendChild(result);
-  }
- } */
-
 document.querySelector("#resetBtn").addEventListener("click", () => {
   window.location.reload(true);
 });
+// NEED TO ADD CLASS TO EVERYTHING TO BE CLICKED INSTEAD OF CONTENT
 
 contentEl.addEventListener("click", (event) => {
+  if (!toggleEl.checked) saveCrypto(event.target.id), getCryptoInfo(event.target.id);
   if (toggleEl.checked) getStockNews(event.target.id);
-  if (!toggleEl.checked) getCryptoInfo(event.target.id);
+
 });
 
-function saveInfo(data) {
-  console.log(data);
-  newItem = data.results[0].ticker;
-  localStorage.setItem(newItem, JSON.stringify(data));
+function saveCrypto(storeCrypto) {
+  console.log(storeCrypto);
+  localStorage.setItem(storeCrypto, storeCrypto);
+  var storageArr = Object.keys(localStorage);
+  console.log("store " + storageArr);
 }
+
+function getMyList() {
+
+  if (localStorage) {
+    var keys = Object.keys(localStorage);
+    var i = keys.length;
+
+    while (i--) {
+      var listEl = document.createElement("div");
+      listEl.innerHTML = `<button class = btn btn-primary w-full  id=${(localStorage.getItem(keys[i]))}> ${capitalize(localStorage.getItem(keys[i]))} </button>`;
+      searchCol.appendChild(listEl);
+    }
+  }
+}
+
+
+
+
+
+
 
 ////////// Starts the application by loading crypto categories //////////
 getCryptoCategories();
+getMyList()
