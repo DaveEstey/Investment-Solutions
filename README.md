@@ -19,7 +19,7 @@ SCREENSHOT: ![image](https://user-images.githubusercontent.com/114950818/2065987
 
 Stock Info: https://api.polygon.io/v2
 Crypto Info: https://api.coingecko.com/api/v3
-Team: David Estey
-      Maxim Belenciuc
-      Ren Besson
+Team: David Estey,
+      Maxim Belenciuc,
+      Ren Besson.
 
