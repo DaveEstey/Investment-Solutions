@@ -71,7 +71,6 @@ var printCryptoCards = (data) => {
         class="btn btn-sm btn-circle saveBtn absolute right-4 bottom-3"
       />`;
     for (i = 0; i < localStorage.length; i++) {
-      x = localStorage.key(i);
       if (localStorage.key(i) === element.id) {
         checkbox = `<input
             type="checkbox"
@@ -107,7 +106,7 @@ var printCryptoCards = (data) => {
   var saveBtns = document.getElementsByClassName("saveBtn");
   for (var i = 0; i < seeMore.length; i++) {
     saveBtns[i].addEventListener("click", (event) => {
-      saveCrypto(event.target.id);
+      toggleCryptoLS(event.target.id);
     });
   }
 };
@@ -293,19 +292,27 @@ document.querySelector("#resetBtn").addEventListener("click", () => {
  
 }); */
 
-function saveCrypto(storeCrypto) {
-  if (storeCrypto) {
+function toggleCryptoLS(storeCrypto) {
+  if (storeCrypto && !localStorage.getItem(storeCrypto)) {
     localStorage.setItem(storeCrypto, storeCrypto);
-    addListItem(storeCrypto);
+    toggleListItem(storeCrypto);
+  } else if (storeCrypto && localStorage.getItem(storeCrypto)) {
+    localStorage.removeItem(storeCrypto);
+    toggleListItem(storeCrypto);
   }
 }
 
-function addListItem(storeCrypto) {
+function toggleListItem(storeCrypto) {
   var listEl = document.createElement("div");
   listEl.innerHTML = `<button class = btn btn-primary w-full  id=${storeCrypto}> ${capitalize(
     storeCrypto
   )} </button>`;
-  myList.appendChild(listEl);
+  if (!myList.querySelector(`#${storeCrypto}`)) {
+    myList.appendChild(listEl);
+  } else {
+    const childEl = document.getElementById(storeCrypto);
+    childEl.remove();
+  }
 }
 
 function getMyList() {
