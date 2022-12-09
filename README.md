@@ -2,7 +2,7 @@
 
 
 ## Decription
-This project was is to be used by people that are new to investing, or looking to further expand their knowledge of a stock or a crypto coin. We use multiple fecth calls to gain access to categories and then to create cards to choose from in that category and then gain access to more information for the card that is clicked "see more"
+This project was is to be used by people that are new to investing, or looking to further expand their knowledge of a stock or a crypto coin. We use multiple fecth calls to gain access to categories, create cards to choose from in that category and gain access to more information for the card that is clicked "see more".
 We learned that Free APIs are not always going to give you all the information that you need and gaining access to other API calls to work with other calls tend to give you probllems with the format the information is given.
 
 ## Installation
