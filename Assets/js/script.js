@@ -70,7 +70,7 @@ var printCryptoCards = (data) => {
     var checkbox = `<input
         type="checkbox"
         id="${element.id}"
-        class="btn btn-sm btn-circle saveBtn absolute right-4 bottom-3"
+        class="btn btn-sm btn-circle saveBtn absolute right-5 top-4"
       />`;
     for (i = 0; i < localStorage.length; i++) {
       if (localStorage.key(i) === element.id) {
@@ -78,7 +78,7 @@ var printCryptoCards = (data) => {
             type="checkbox"
             checked
             id="${element.id}"
-            class="btn btn-sm btn-circle saveBtn absolute right-4 bottom-3"
+            class="btn btn-sm btn-circle saveBtn absolute right-5 top-4"
           />`;
       }
     }
@@ -328,8 +328,7 @@ function getMyList() {
     while (i--) {
       var listEl = document.createElement("div");
       listEl.innerHTML = `<button class = btn btn-primary w-full  id=${localStorage.getItem(
-        keys[i]
-      )}> ${capitalize(localStorage.getItem(keys[i]))} </button>`;
+        keys[i])}> ${capitalize(localStorage.getItem(keys[i]))} </button>`;
       myList.appendChild(listEl);
     }
     myList.addEventListener("click", function (event) {
