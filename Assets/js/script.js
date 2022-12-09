@@ -293,13 +293,6 @@ toggleEl.addEventListener("change", (event) => {
 document.querySelector("#resetBtn").addEventListener("click", () => {
   window.location.reload(true);
 });
-// NEED TO ADD CLASS TO EVERYTHING TO BE CLICKED INSTEAD OF CONTENT
-
-/* contentEl.addEventListener("click", (event) => {
-  if (!toggleEl.checked) getCryptoInfo(event.target.id);
-  if (toggleEl.checked) getStockNews(event.target.id);
- 
-}); */
 
 ///////// Toggle the crypto saved card in local storage /////////
 function toggleCryptoLS(storeCrypto) {
