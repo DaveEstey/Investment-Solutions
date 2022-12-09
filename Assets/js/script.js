@@ -65,6 +65,22 @@ var printCryptoCards = (data) => {
   clearContent();
   data.slice(0, 20).forEach((element) => {
     var card = document.createElement("div");
+    var checkbox = `<input
+        type="checkbox"
+        id="${element.id}"
+        class="btn btn-sm btn-circle saveBtn absolute right-4 bottom-3"
+      />`;
+    for (i = 0; i < localStorage.length; i++) {
+      x = localStorage.key(i);
+      if (localStorage.key(i) === element.id) {
+        checkbox = `<input
+            type="checkbox"
+            checked
+            id="${element.id}"
+            class="btn btn-sm btn-circle saveBtn absolute right-4 bottom-3"
+          />`;
+      }
+    }
     card.innerHTML = `
       <div class="card w-64 bg-white shadow-xl m-5">
         <figure class="m-3">
@@ -74,17 +90,12 @@ var printCryptoCards = (data) => {
           <p>${element.name}</p>
           <div class="card-actions justify-end">  
             <label for="main-modal" class="btn btn-primary see-more w-full" id=${element.id} >See More</label>
-            <input
-              type="checkbox"
-              id="${element.id}"
-              class="btn btn-sm btn-circle saveBtn absolute right-4 bottom-3"
-            />
+            ${checkbox}
           </div>
         </div>
-      </div>
-  `;
-    contentEl.append(card);
+      </div>`;
 
+    contentEl.append(card);
   });
   var seeMore = document.getElementsByClassName("see-more");
   for (var i = 0; i < seeMore.length; i++) {
@@ -122,8 +133,8 @@ var printStockCards = (data) => {
     seeMoreStock[i].addEventListener("click", (event) => {
       getStockNews(event.target.id);
     });
-  };
-}
+  }
+};
 
 function getStockNews(ticker) {
   var getNewsApi = `https://api.polygon.io/v2/reference/news?ticker=${ticker}&apiKey=UAmJhIVKMGMQmJfv7Tja6hKiWkViJV6z`;
@@ -168,7 +179,8 @@ function getCryptoInfo(ticker) {
             `<p> ${capitalize(ticker)}</p>`,
             `<p> Price: USD ${toCurrency(price, 4)}</p>
             <p>Market Cap: ${toCurrency(marketCap)}</p>
-            <p>24h Change: <span class=${changeIn24 >= 0 ? "text-green-600" : "text-red-600"
+            <p>24h Change: <span class=${
+              changeIn24 >= 0 ? "text-green-600" : "text-red-600"
             }>${toCurrency(changeIn24, 5)}</span></p>
             <p>24h Volume: ${toCurrency(volumeIn24)}</p>`
           );
@@ -281,48 +293,42 @@ document.querySelector("#resetBtn").addEventListener("click", () => {
  
 }); */
 
-
 function saveCrypto(storeCrypto) {
   if (storeCrypto) {
     localStorage.setItem(storeCrypto, storeCrypto);
     addListItem(storeCrypto);
   }
-
 }
 
 function addListItem(storeCrypto) {
   var listEl = document.createElement("div");
-  listEl.innerHTML = `<button class = btn btn-primary w-full  id=${storeCrypto}> ${capitalize(storeCrypto)} </button>`;
+  listEl.innerHTML = `<button class = btn btn-primary w-full  id=${storeCrypto}> ${capitalize(
+    storeCrypto
+  )} </button>`;
   myList.appendChild(listEl);
 }
 
 function getMyList() {
-
   if (localStorage) {
     var keys = Object.keys(localStorage);
     var i = keys.length;
 
     while (i--) {
       var listEl = document.createElement("div");
-      listEl.innerHTML = `<button class = btn btn-primary w-full  id=${(localStorage.getItem(keys[i]))}> ${capitalize(localStorage.getItem(keys[i]))} </button>`;
+      listEl.innerHTML = `<button class = btn btn-primary w-full  id=${localStorage.getItem(
+        keys[i]
+      )}> ${capitalize(localStorage.getItem(keys[i]))} </button>`;
       myList.appendChild(listEl);
     }
     myList.addEventListener("click", function (event) {
-      getCryptoInfo(event.target.id)
+      getCryptoInfo(event.target.id);
     });
   }
 }
 
-document.querySelector("#clearBtn").addEventListener("click", () => { localStorage.clear(); })
-
-
-
-
-
-
-
-
-
+document.querySelector("#clearBtn").addEventListener("click", () => {
+  localStorage.clear();
+});
 
 ////////// Starts the application by loading crypto categories //////////
 getCryptoCategories();
