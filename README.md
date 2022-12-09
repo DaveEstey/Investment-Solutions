@@ -15,6 +15,10 @@ First you can keep the default catagories within the dropdown box for Crypto, or
 
 WEBSITE: https://daveestey.github.io/Investment-Solutions/  REPO: https://github.com/DaveEstey/Investment-Solutions
 SCREENSHOT: ![image](https://user-images.githubusercontent.com/114950818/206598754-089200d6-76d3-41dc-be87-fb027a73dc84.png)
+Crypto Cards: ![image](https://user-images.githubusercontent.com/114950818/206612677-cc9b7d50-9c17-4250-bbcf-b0ae319ec08f.png)
+Stock Cards: ![image](https://user-images.githubusercontent.com/114950818/206612864-4c08229d-26e5-4d21-b3ec-ee1653980385.png)
+
+
 
 ## Credit
 
