@@ -10,15 +10,15 @@ N/A
 
 ## Usage
 
-First you can keep the default catagories within the dropdown box for Crypto, or switch it to getting all the stock categories categories. Next, You can click on a card of your choosing for more info, and if you so choose you can save it to your list by checking the cjhbox in the bottom right corner if the card.
+First you can keep the default catagories within the dropdown box for Crypto, or switch it to getting all the stock categories categories. Next, You can click on a card of your choosing for more info, and if you so choose you can save it to your list by checking the in the bottom right corner if the card.
 
 WEBSITE: https://daveestey.github.io/Investment-Solutions/  REPO: https://github.com/DaveEstey/Investment-Solutions
 SCREENSHOT: ![image](https://user-images.githubusercontent.com/114950818/206598754-089200d6-76d3-41dc-be87-fb027a73dc84.png)
 
 ## Credit
 
-Stock Info: https://api.polygon.io/v2
-Crypto Info: https://api.coingecko.com/api/v3
+Stock Info: https://polygon.io/docs/stocks/get_vx_reference_financials
+Crypto Info: https://www.coingecko.com/en/api/documentation
 Team: David Estey,
       Maxim Belenciuc,
       Ren Besson.
