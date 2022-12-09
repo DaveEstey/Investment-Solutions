@@ -38,18 +38,7 @@ function toCurrency(value, decimals = 2) {
   }).format(value);
 }
 
-//////////  ///////////
-function showStockResults(resultObj) {
-  clearDropDown();
-  resultObj.forEach((element) => {
-    var result = document.createElement("option");
-    result.innerHTML = element.description;
-    result.setAttribute("value", element.code);
-
-    dropDownEl.appendChild(result);
-  });
-}
-
+////////// Prints the crypto categories ///////////
 function showCryptoResults(resultObj) {
   clearDropDown();
   for (var i = 0; i < resultObj.length; i++) {
@@ -61,6 +50,19 @@ function showCryptoResults(resultObj) {
   }
 }
 
+////////// Prints the stock categories ///////////
+function showStockResults(resultObj) {
+  clearDropDown();
+  resultObj.forEach((element) => {
+    var result = document.createElement("option");
+    result.innerHTML = element.description;
+    result.setAttribute("value", element.code);
+
+    dropDownEl.appendChild(result);
+  });
+}
+
+////////// Prints the crypto cards on the content section ///////////
 var printCryptoCards = (data) => {
   clearContent();
   data.slice(0, 20).forEach((element) => {
@@ -111,6 +113,7 @@ var printCryptoCards = (data) => {
   }
 };
 
+////////// Prints the stock cards on the content section ///////////
 var printStockCards = (data) => {
   clearContent();
   data.slice(0, 20).forEach((element) => {
@@ -135,32 +138,7 @@ var printStockCards = (data) => {
   }
 };
 
-function getStockNews(ticker) {
-  var getNewsApi = `https://api.polygon.io/v2/reference/news?ticker=${ticker}&apiKey=UAmJhIVKMGMQmJfv7Tja6hKiWkViJV6z`;
-
-  fetch(getNewsApi)
-    .then(function (response) {
-      if (response.ok) {
-        response.json().then(function (data) {
-          if (data.results.length > 0) {
-            updateModal(
-              `<a href=${data.results[0].article_url} target= "_blank">${data.results[0].title}<a/>`,
-              data.results[0].description
-            );
-            saveInfo(data);
-          } else {
-            updateModal("No News Found", "No news found for this specific ticker.");
-          }
-        });
-      } else {
-        updateModal("Error fetching news", `Code: ${response.status}`);
-      }
-    })
-    .catch(function () {
-      updateModal("Unable To Fetch API");
-    });
-}
-
+////////// Opens the modal with the selected crypto information ///////////
 function getCryptoInfo(ticker) {
   var getCryptoInfoApi = `https://api.coingecko.com/api/v3/simple/price?ids=${ticker}&vs_currencies=usd&include_market_cap=true&include_24hr_vol=true&include_24hr_change=true`;
 
@@ -193,6 +171,34 @@ function getCryptoInfo(ticker) {
     });
 }
 
+////////// Opens the modal with the selected stock news ///////////
+function getStockNews(ticker) {
+  var getNewsApi = `https://api.polygon.io/v2/reference/news?ticker=${ticker}&apiKey=UAmJhIVKMGMQmJfv7Tja6hKiWkViJV6z`;
+
+  fetch(getNewsApi)
+    .then(function (response) {
+      if (response.ok) {
+        response.json().then(function (data) {
+          if (data.results.length > 0) {
+            updateModal(
+              `<a href=${data.results[0].article_url} target= "_blank">${data.results[0].title}<a/>`,
+              data.results[0].description
+            );
+            saveInfo(data);
+          } else {
+            updateModal("No News Found", "No news found for this specific ticker.");
+          }
+        });
+      } else {
+        updateModal("Error fetching news", `Code: ${response.status}`);
+      }
+    })
+    .catch(function () {
+      updateModal("Unable To Fetch API");
+    });
+}
+
+////////// Fetches the crypto API and calls the function to print the cards ///////////
 function getCryptoApi(value) {
   var coinGeckoApi = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=${value}&order=market_cap_desc&per_page=10&page=1&sparkline=false`;
 
@@ -210,7 +216,7 @@ function getCryptoApi(value) {
     });
 }
 
-///////// Query "value" from stock API /////////
+////////// Fetches the stock API and calls the function to print the cards ///////////
 function getStockApi(ticker) {
   coinPolygonReference = `https://api.polygon.io/v3/reference/tickers?type=${ticker}&market=stocks&active=true&apiKey=UAmJhIVKMGMQmJfv7Tja6hKiWkViJV6z`;
 
@@ -229,6 +235,7 @@ function getStockApi(ticker) {
     });
 }
 
+////////// Fetches the crypto API for categories and calls the function insert them to the select element ///////////
 function getCryptoCategories() {
   var coinGeckoApi = "https://api.coingecko.com/api/v3/coins/categories/list";
 
@@ -247,7 +254,7 @@ function getCryptoCategories() {
     });
 }
 
-///////// Query "value" from stock API /////////
+////////// Fetches the stock API for categories and calls the function insert them to the select element ///////////
 function getStockCategories() {
   polygonReference = `https://api.polygon.io/v3/reference/tickers/types?asset_class=stocks&locale=us&apiKey=UAmJhIVKMGMQmJfv7Tja6hKiWkViJV6z`;
 
@@ -272,6 +279,7 @@ dropDownEl.addEventListener("change", () => {
   if (toggleEl.checked) getStockApi(dropDownEl.value);
 });
 
+///////// Add the Checkbox toggle event listener /////////
 toggleEl.addEventListener("change", (event) => {
   isChecked = event.target.checked;
 
@@ -281,6 +289,7 @@ toggleEl.addEventListener("change", (event) => {
   else getStockCategories();
 });
 
+///////// Add the reset button event listener /////////
 document.querySelector("#resetBtn").addEventListener("click", () => {
   window.location.reload(true);
 });
@@ -292,6 +301,7 @@ document.querySelector("#resetBtn").addEventListener("click", () => {
  
 }); */
 
+///////// Toggle the crypto saved card in local storage /////////
 function toggleCryptoLS(storeCrypto) {
   if (storeCrypto && !localStorage.getItem(storeCrypto)) {
     localStorage.setItem(storeCrypto, storeCrypto);
@@ -302,6 +312,7 @@ function toggleCryptoLS(storeCrypto) {
   }
 }
 
+///////// Toggle the crypto button in history /////////
 function toggleListItem(storeCrypto) {
   var listEl = document.createElement("div");
   listEl.innerHTML = `<button class = btn btn-primary w-full  id=${storeCrypto}> ${capitalize(
@@ -315,6 +326,7 @@ function toggleListItem(storeCrypto) {
   }
 }
 
+///////// Fetches the crypto history saved in local storage /////////
 function getMyList() {
   if (localStorage) {
     var keys = Object.keys(localStorage);
@@ -333,6 +345,7 @@ function getMyList() {
   }
 }
 
+///////// Clears local storage /////////
 document.querySelector("#clearBtn").addEventListener("click", () => {
   localStorage.clear();
 });
